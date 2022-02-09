@@ -72,7 +72,7 @@ def get_win_check(fd, symbol):
 
 
 mainloop = True
-
+draw_grid(screen)
 
 while mainloop:
 
@@ -83,22 +83,30 @@ while mainloop:
             pos = pygame.mouse.get_pos()
             if field[pos[1] // 90][pos[0] // 90] == '':
                 field[pos[1] // 90][pos[0] // 90] = 'x'
-                x, y = random.randrange(5), random.randrange(5)
-                while field[x][y] != "":
+
+                while True:
                     x, y = random.randrange(5), random.randrange(5)
-                field[x][y] = '0'
+                    if field[x][y] == '':
+                        field[x][y] = '0'
+                        break
+
+
+
 
             player_win = get_win_check(field, 'x')
             ai_win = get_win_check(field, '0')
             if player_win or ai_win:
-                game_over = True
+
                 if player_win:
                     pygame.display.set_caption('Вы победили')
 
                 elif ai_win:
                     pygame.display.set_caption('Комп выйграл')
+                if event.type == pygame.KEYDOWN and event.type == pygame.K_SPACE:
+                    pygame.display.set_caption('Продолжаем')
+
 
     draw_tic_tac_toe(screen, field)
-    draw_grid(screen)
+
     window.blit(screen, (0, 0))
     pygame.display.update()
